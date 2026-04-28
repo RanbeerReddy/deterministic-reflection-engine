@@ -1,25 +1,230 @@
 {
-    "meta": {
-        "name": "Daily Reflection Tree",
-        "version": "1.0",
-        "startNode": "START",
-        "description": "Deterministic end-of-day reflection tree to help you review your day and plan for tomorrow."
+  "meta": {
+    "title": "Daily Reflection Tree",
+    "version": "3.0",
+    "startNode": "START"
+  },
+
+  "axes": {
+    "axis1": { "name": "Locus", "positive": "internal", "negative": "external" },
+    "axis2": { "name": "Orientation", "positive": "contribution", "negative": "entitlement" },
+    "axis3": { "name": "Radius", "positive": "others", "negative": "self" }
+  },
+
+  "nodes": {
+
+    "START": {
+      "type": "start",
+      "text": "Good evening. Let’s reflect on how you showed up today.",
+      "next": "A1_Q1"
     },
-    "axes": {
-        "axes1": {
-            "name": "Locus of Control",
-            "positive": "Internal",
-            "negative": "External"
-        },
-        "axes2": {
-            "name": "Orientation",
-            "positive": "contribution",
-            "negative": "entitlement"
-        },
-        "axes3": {
-            "name": "Radius",
-            "positive": "other",
-            "negative": "self"
-        }
+
+    // ================= AXIS 1 =================
+
+    "A1_Q1": {
+      "type": "question",
+      "text": "When something didn’t go as planned today, what was your first reaction?",
+      "options": [
+        { "label": "I looked for what I could change", "next": "A1_Q2", "signals": ["axis1:internal"] },
+        { "label": "I thought about both my role and the situation", "next": "A1_Q2", "signals": ["axis1:internal", "axis1:external"] },
+        { "label": "I felt it was mostly outside my control", "next": "A1_Q2", "signals": ["axis1:external"] }
+      ]
+    },
+
+    "A1_Q2": {
+      "type": "question",
+      "text": "After a setback, what did you focus on?",
+      "options": [
+        { "label": "Adjusting my approach", "next": "A1_D1", "signals": ["axis1:internal"] },
+        { "label": "Understanding what influenced it", "next": "A1_D1", "signals": ["axis1:internal", "axis1:external"] },
+        { "label": "What went wrong externally", "next": "A1_D1", "signals": ["axis1:external"] }
+      ]
+    },
+
+    "A1_D1": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis1.internal > axis1.external", "next": "A1_REF_INT" },
+        { "if": "axis1.external > axis1.internal", "next": "A1_REF_EXT" },
+        { "if": "otherwise", "next": "A1_ADAPTIVE" }
+      ]
+    },
+
+    "A1_ADAPTIVE": {
+      "type": "question",
+      "text": "Even if things were unclear, where did your choice matter most?",
+      "options": [
+        { "label": "In how I responded", "next": "A1_D2", "signals": ["axis1:internal"] },
+        { "label": "Both my response and situation", "next": "A1_D2", "signals": ["axis1:internal", "axis1:external"] },
+        { "label": "Mostly situation-driven", "next": "A1_D2", "signals": ["axis1:external"] }
+      ]
+    },
+
+    "A1_D2": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis1.internal >= axis1.external", "next": "A1_REF_INT" },
+        { "if": "axis1.external > axis1.internal", "next": "A1_REF_EXT" }
+      ]
+    },
+
+    "A1_REF_INT": {
+      "type": "reflection",
+      "text": "You tended to focus on what you could influence. That sense of control often helps you adapt faster.",
+      "next": "BRIDGE_1_2"
+    },
+
+    "A1_REF_EXT": {
+      "type": "reflection",
+      "text": "Your attention leaned toward external factors. That awareness matters — though your choices still played a role.",
+      "next": "BRIDGE_1_2"
+    },
+
+    "BRIDGE_1_2": {
+      "type": "bridge",
+      "text": "Now let’s shift from control to what you contributed today.",
+      "next": "A2_Q1"
+    },
+
+    // ================= AXIS 2 =================
+
+    "A2_Q1": {
+      "type": "question",
+      "text": "When something needed to be done outside your role:",
+      "options": [
+        { "label": "I stepped in to help", "next": "A2_Q2", "signals": ["axis2:contribution"] },
+        { "label": "I helped if it fit my workload", "next": "A2_Q2", "signals": ["axis2:contribution"] },
+        { "label": "I waited for clear responsibility", "next": "A2_Q2", "signals": ["axis2:entitlement"] }
+      ]
+    },
+
+    "A2_Q2": {
+      "type": "question",
+      "text": "How did you think about effort vs recognition?",
+      "options": [
+        { "label": "Focus on impact, recognition follows", "next": "A2_D1", "signals": ["axis2:contribution"] },
+        { "label": "Both matter equally", "next": "A2_D1", "signals": ["axis2:contribution", "axis2:entitlement"] },
+        { "label": "Effort should be noticed quickly", "next": "A2_D1", "signals": ["axis2:entitlement"] }
+      ]
+    },
+
+    "A2_D1": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis2.contribution > axis2.entitlement", "next": "A2_REF_CONTRIB" },
+        { "if": "axis2.entitlement > axis2.contribution", "next": "A2_REF_ENT" },
+        { "if": "otherwise", "next": "A2_ADAPTIVE" }
+      ]
+    },
+
+    "A2_ADAPTIVE": {
+      "type": "question",
+      "text": "In a tight situation, what drives your decision more?",
+      "options": [
+        { "label": "What helps the team most", "next": "A2_D2", "signals": ["axis2:contribution"] },
+        { "label": "Balancing team and personal effort", "next": "A2_D2", "signals": ["axis2:contribution", "axis2:entitlement"] },
+        { "label": "What feels fair to me", "next": "A2_D2", "signals": ["axis2:entitlement"] }
+      ]
+    },
+
+    "A2_D2": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis2.contribution >= axis2.entitlement", "next": "A2_REF_CONTRIB" },
+        { "if": "axis2.entitlement > axis2.contribution", "next": "A2_REF_ENT" }
+      ]
+    },
+
+    "A2_REF_CONTRIB": {
+      "type": "reflection",
+      "text": "You leaned toward contribution — focusing on what you give. That often builds long-term trust.",
+      "next": "BRIDGE_2_3"
+    },
+
+    "A2_REF_ENT": {
+      "type": "reflection",
+      "text": "You paid attention to fairness and return. That’s natural — though contribution often creates more momentum.",
+      "next": "BRIDGE_2_3"
+    },
+
+    "BRIDGE_2_3": {
+      "type": "bridge",
+      "text": "Finally, let’s look at how broadly you saw your impact today.",
+      "next": "A3_Q1"
+    },
+
+    // ================= AXIS 3 =================
+
+    "A3_Q1": {
+      "type": "question",
+      "text": "When making decisions today, what mattered most?",
+      "options": [
+        { "label": "Impact on others", "next": "A3_Q2", "signals": ["axis3:others"] },
+        { "label": "Balancing impact and effort", "next": "A3_Q2", "signals": ["axis3:others", "axis3:self"] },
+        { "label": "My own workload", "next": "A3_Q2", "signals": ["axis3:self"] }
+      ]
+    },
+
+    "A3_Q2": {
+      "type": "question",
+      "text": "In a challenge, who came to mind first?",
+      "options": [
+        { "label": "Team or others affected", "next": "A3_D1", "signals": ["axis3:others"] },
+        { "label": "Both me and others", "next": "A3_D1", "signals": ["axis3:others", "axis3:self"] },
+        { "label": "Mostly myself", "next": "A3_D1", "signals": ["axis3:self"] }
+      ]
+    },
+
+    "A3_D1": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis3.others > axis3.self", "next": "A3_REF_OTHERS" },
+        { "if": "axis3.self > axis3.others", "next": "A3_REF_SELF" },
+        { "if": "otherwise", "next": "A3_ADAPTIVE" }
+      ]
+    },
+
+    "A3_ADAPTIVE": {
+      "type": "question",
+      "text": "If you step back, whose outcome mattered more today?",
+      "options": [
+        { "label": "Others’ outcomes", "next": "A3_D2", "signals": ["axis3:others"] },
+        { "label": "Both equally", "next": "A3_D2", "signals": ["axis3:others", "axis3:self"] },
+        { "label": "My own outcomes", "next": "A3_D2", "signals": ["axis3:self"] }
+      ]
+    },
+
+    "A3_D2": {
+      "type": "decision",
+      "conditions": [
+        { "if": "axis3.others >= axis3.self", "next": "A3_REF_OTHERS" },
+        { "if": "axis3.self > axis3.others", "next": "A3_REF_SELF" }
+      ]
+    },
+
+    "A3_REF_OTHERS": {
+      "type": "reflection",
+      "text": "You saw your day through a wider lens — considering others and impact beyond yourself.",
+      "next": "SUMMARY"
+    },
+
+    "A3_REF_SELF": {
+      "type": "reflection",
+      "text": "Your focus stayed close to your own responsibilities. That’s real — though widening perspective can shift how things feel.",
+      "next": "SUMMARY"
+    },
+
+    "SUMMARY": {
+      "type": "summary",
+      "text": "Today you leaned {axis1.dominant} on control, {axis2.dominant} on contribution, and {axis3.dominant} in perspective. These patterns shaped your day.",
+      "next": "END"
+    },
+
+    "END": {
+      "type": "end",
+      "text": "That’s it for today. See you tomorrow."
     }
+  }
+}
+    
 }
