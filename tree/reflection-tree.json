@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Daily Reflection Tree",
-    "version": "3.0",
+    "version": "3.2",
     "startNode": "START"
   },
 
@@ -15,23 +15,33 @@
 
     "START": {
       "type": "start",
-      "text": "Good evening. Let’s reflect on how you showed up today.",
+      "text": "The laptop is closed. The day is done. Let’s take two minutes to make sense of the hours you just lived.",
       "next": "A1_Q1"
     },
 
-    // ================= AXIS 1 =================
+    "// --- AXIS 1: LOCUS (Internal vs External) ---": {},
 
     "A1_Q1": {
       "type": "question",
-      "text": "When something didn’t go as planned today, what was your first reaction?",
+      "text": "Think of the one task or conversation that didn't go the way you hoped. Looking back, what’s the story you're telling yourself about it?",
       "options": [
-        { "label": "I looked for what I could change", "next": "A1_Q2", "signals": ["axis1:internal"] },
-        { "label": "I thought about both my role and the situation", "next": "A1_Q2", "signals": ["axis1:internal", "axis1:external"] },
-        { "label": "I felt it was mostly outside my control", "next": "A1_Q2", "signals": ["axis1:external"] }
+        { "label": "I missed an opportunity to steer it better.", "next": "A1_Q2", "signals": ["axis1:internal"] },
+        { "label": "The situation was stacked against me from the start.", "next": "A1_Q2", "signals": ["axis1:external"] },
+        { "label": "It was just one of those 'luck of the draw' days.", "next": "A1_Q2", "signals": ["axis1:external"] }
       ]
     },
 
     "A1_Q2": {
+      "type": "question",
+      "text": "In the middle of that friction, did you feel like the driver of your day, or just a passenger in a fast car?",
+      "options": [
+        { "label": "I was the driver—I made the calls I could.", "next": "A1_Q3", "signals": ["axis1:internal"] },
+        { "label": "I felt like a passenger—just reacting to others.", "next": "A1_Q3", "signals": ["axis1:external"] },
+        { "label": "I was in the driver's seat, but the road was washed out.", "next": "A1_Q3", "signals": ["axis1:internal", "axis1:external"] }
+      ]
+    },
+
+    "A1_Q3": {
       "type": "question",
       "text": "After a setback, what did you focus on?",
       "options": [
@@ -52,11 +62,10 @@
 
     "A1_ADAPTIVE": {
       "type": "question",
-      "text": "Even if things were unclear, where did your choice matter most?",
+      "text": "If you could rewind to 9 AM, would you change your strategy, or would you just hope for better luck?",
       "options": [
-        { "label": "In how I responded", "next": "A1_D2", "signals": ["axis1:internal"] },
-        { "label": "Both my response and situation", "next": "A1_D2", "signals": ["axis1:internal", "axis1:external"] },
-        { "label": "Mostly situation-driven", "next": "A1_D2", "signals": ["axis1:external"] }
+        { "label": "I’d change my strategy—I see the gap now.", "next": "A1_D2", "signals": ["axis1:internal"] },
+        { "label": "I’d just hope for a smoother environment.", "next": "A1_D2", "signals": ["axis1:external"] }
       ]
     },
 
@@ -70,7 +79,7 @@
 
     "A1_REF_INT": {
       "type": "reflection",
-      "text": "You tended to focus on what you could influence. That sense of control often helps you adapt faster.",
+      "text": "You're leaning into a Growth Mindset. You saw your hand in the outcomes. That ownership is the first step toward mastery.",
       "next": "BRIDGE_1_2"
     },
 
@@ -82,29 +91,31 @@
 
     "BRIDGE_1_2": {
       "type": "bridge",
-      "text": "Now let’s shift from control to what you contributed today.",
+      "text": "Having established where you stood, let’s look at what you left behind for others.",
       "next": "A2_Q1"
     },
 
-    // ================= AXIS 2 =================
+
+    "// --- AXIS 2: ORIENTATION (Contribution vs Entitlement) ---": {},
+
 
     "A2_Q1": {
       "type": "question",
-      "text": "When something needed to be done outside your role:",
+      "text": "At any point today, did you do something that wasn't on your 'official' list, simply because it needed doing?",
       "options": [
-        { "label": "I stepped in to help", "next": "A2_Q2", "signals": ["axis2:contribution"] },
-        { "label": "I helped if it fit my workload", "next": "A2_Q2", "signals": ["axis2:contribution"] },
-        { "label": "I waited for clear responsibility", "next": "A2_Q2", "signals": ["axis2:entitlement"] }
+        { "label": "Yes—I stepped in to unblock someone else.", "next": "A2_Q2", "signals": ["axis2:contribution"] },
+        { "label": "I thought about it, but I stayed in my lane.", "next": "A2_Q2", "signals": ["axis2:entitlement"] },
+        { "label": "I spent the day waiting for others to unblock me.", "next": "A2_Q2", "signals": ["axis2:entitlement"] }
       ]
     },
 
     "A2_Q2": {
       "type": "question",
-      "text": "How did you think about effort vs recognition?",
+      "text": "When you finished a task, was your first thought 'I hope they notice' or 'I hope this helps'?",
       "options": [
-        { "label": "Focus on impact, recognition follows", "next": "A2_D1", "signals": ["axis2:contribution"] },
-        { "label": "Both matter equally", "next": "A2_D1", "signals": ["axis2:contribution", "axis2:entitlement"] },
-        { "label": "Effort should be noticed quickly", "next": "A2_D1", "signals": ["axis2:entitlement"] }
+        { "label": "'I hope this helps'—I'm focused on the impact.", "next": "A2_D1", "signals": ["axis2:contribution"] },
+        { "label": "'I hope they notice'—I need my effort recognized.", "next": "A2_D1", "signals": ["axis2:entitlement"] },
+        { "label": "Neither—I just wanted to get it over with.", "next": "A2_D1", "signals": ["axis2:entitlement"] }
       ]
     },
 
@@ -118,6 +129,15 @@
     },
 
     "A2_ADAPTIVE": {
+      "type": "question",
+      "text": "If a colleague was drowning in work, would you see it as an inconvenience or an opportunity to be a teammate?",
+      "options": [
+        { "label": "An opportunity—that's how we win.", "next": "A2_ADAPTIVE1", "signals": ["axis2:contribution"] },
+        { "label": "An inconvenience—I have my own burdens.", "next": "A2_ADAPTIVE1", "signals": ["axis2:entitlement"] }
+      ]
+    },
+
+    "A2_ADAPTIVE1": {
       "type": "question",
       "text": "In a tight situation, what drives your decision more?",
       "options": [
@@ -137,13 +157,13 @@
 
     "A2_REF_CONTRIB": {
       "type": "reflection",
-      "text": "You leaned toward contribution — focusing on what you give. That often builds long-term trust.",
+      "text": "You operated with a 'Value Surplus' today. By giving more than you took, you've built organizational trust—even if no one said 'thank you' yet.",
       "next": "BRIDGE_2_3"
     },
 
     "A2_REF_ENT": {
       "type": "reflection",
-      "text": "You paid attention to fairness and return. That’s natural — though contribution often creates more momentum.",
+      "text": "You focused on self-preservation today. In a high-stress world, that’s a survival tactic—but long-term growth requires shifting from 'what's mine' to 'what's ours'.",
       "next": "BRIDGE_2_3"
     },
 
@@ -153,7 +173,7 @@
       "next": "A3_Q1"
     },
 
-    // ================= AXIS 3 =================
+    "// --- AXIS 3: RADIUS (Self vs Others/Transcendence) ---": {},
 
     "A3_Q1": {
       "type": "question",
@@ -167,11 +187,11 @@
 
     "A3_Q2": {
       "type": "question",
-      "text": "In a challenge, who came to mind first?",
+      "text": "When you felt the most stress today, who were you worried about most?",
       "options": [
-        { "label": "Team or others affected", "next": "A3_D1", "signals": ["axis3:others"] },
-        { "label": "Both me and others", "next": "A3_D1", "signals": ["axis3:others", "axis3:self"] },
-        { "label": "Mostly myself", "next": "A3_D1", "signals": ["axis3:self"] }
+        { "label": "My own reputation or workload.", "next": "A3_D1", "signals": ["axis3:self"] },
+        { "label": "My team's morale or the project's health.", "next": "A3_D1", "signals": ["axis3:others"] },
+        { "label": "The user or customer who actually relies on this.", "next": "A3_D1", "signals": ["axis3:others"] }
       ]
     },
 
@@ -188,9 +208,18 @@
       "type": "question",
       "text": "If you step back, whose outcome mattered more today?",
       "options": [
-        { "label": "Others’ outcomes", "next": "A3_D2", "signals": ["axis3:others"] },
-        { "label": "Both equally", "next": "A3_D2", "signals": ["axis3:others", "axis3:self"] },
-        { "label": "My own outcomes", "next": "A3_D2", "signals": ["axis3:self"] }
+        { "label": "Others’ outcomes", "next": "A3_ADAPTIVE1", "signals": ["axis3:others"] },
+        { "label": "Both equally", "next": "A3_ADAPTIVE1", "signals": ["axis3:others", "axis3:self"] },
+        { "label": "My own outcomes", "next": "A3_ADAPTIVE1", "signals": ["axis3:self"] }
+      ]
+    },
+
+    "A3_ADAPTIVE1": {
+      "type": "question",
+      "text": "Think of the most important person you interacted with today. Did you really hear them, or were you just waiting for your turn to speak?",
+      "options": [
+        { "label": "I really heard them.", "next": "A3_D2", "signals": ["axis3:others"] },
+        { "label": "I was just waiting for my turn.", "next": "A3_D2", "signals": ["axis3:self"] }
       ]
     },
 
@@ -204,7 +233,7 @@
 
     "A3_REF_OTHERS": {
       "type": "reflection",
-      "text": "You saw your day through a wider lens — considering others and impact beyond yourself.",
+      "text": "You saw your day through a wider lens, considering others and impact beyond yourself.",
       "next": "SUMMARY"
     },
 
@@ -216,15 +245,14 @@
 
     "SUMMARY": {
       "type": "summary",
-      "text": "Today you leaned {axis1.dominant} on control, {axis2.dominant} on contribution, and {axis3.dominant} in perspective. These patterns shaped your day.",
+      "text": "Tonight, you walk away with a {axis1.dominant} sense of agency, a {axis2.dominant} heart, and a {axis3.dominant} field of vision. This was your day. Own it.",
       "next": "END"
     },
 
     "END": {
       "type": "end",
-      "text": "That’s it for today. See you tomorrow."
+      "text": "Deep breath. You're done. Go be a human for a while.."
     }
   }
 }
     
-}
