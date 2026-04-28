@@ -1,5 +1,5 @@
 ```mermaid
-%%{init: {'theme': 'base'}}%%
+%%{init: {'theme': 'base', 'flowchart': {'padding': '0', 'nodeSpacing': 50, 'rankSpacing': 30}}}}%%
 graph TD
 
 START([START])
